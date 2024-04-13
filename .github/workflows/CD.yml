@@ -13,20 +13,8 @@ on:
 
 jobs:
 
-  bring:
-    uses: ./.github/workflows/CI.yml  
   deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-files
+    uses: ./.github/workflows/CI.yml  
     
   deploy_dev:
     runs-on: ubuntu-latest
