@@ -23,5 +23,7 @@ jobs:
     steps:
          - name: Checkout Repository
            uses: actions/checkout@v2
+         - name: Decompress Artifact
+           run: unzip build-files/dist-file.zip -d .
 
 
