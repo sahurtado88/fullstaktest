@@ -7,9 +7,6 @@ on:
       - dev
       - prod
       - stage
-  push:
-    branches:
-      - '*'
 
 jobs:
   deploy:
