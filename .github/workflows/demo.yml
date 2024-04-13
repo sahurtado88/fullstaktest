@@ -25,7 +25,7 @@ jobs:
         run: npm run lint
 
       - name: Formatter
-        run: npm run prettier
+        run: npm i -g prettier
 
       - name: Test
         run: CI=true npm test
