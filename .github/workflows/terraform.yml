@@ -36,7 +36,7 @@ jobs:
               working-directory: ${{env.ROOTH_PATH}}
               run: terraform init  
 
-            - name: 'Set Eworkspace'
+            - name: 'Set workspace'
               working-directory: ${{env.ROOTH_PATH}}
               run: |
                 terraform workspace new  ${{ env.environment}} 
@@ -64,6 +64,6 @@ jobs:
                 ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}   
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
                 working-directory: ${{env.ROOTH_PATH}}
-              run: terraform apply -auto-approve 
+              run: terraform apply --var-file prod.tfvars -auto-approve 
                          
 
