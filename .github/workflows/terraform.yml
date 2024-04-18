@@ -4,9 +4,9 @@ on:
     workflow_dispatch:
      inputs:
         environment:
-            description: 'Environment to deploy (devl,stage,prod)'
+            description: 'Environment to deploy (devel,stage,prod)'
             required: true
-            default: 'dev'
+            default: 'devel'
 
 jobs:
     terraform:
