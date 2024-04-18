@@ -27,6 +27,7 @@ jobs:
 
 
             - name: 'Terraform Init'
+              working-directory: ./Infra
               run: terraform init  
 
             - name: 'Terraform Plan'
