@@ -32,8 +32,10 @@ jobs:
               run: terraform init  
 
             - name: 'Terraform Plan'
+              working-directory: ./Infra
               run: terraform plan 
 
             - name: 'Terraform Apply'
+              working-directory: ./Infra
               run: terraform apply -auto-approve 
                          
