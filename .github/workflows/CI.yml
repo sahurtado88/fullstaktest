@@ -45,13 +45,11 @@ jobs:
           azcliversion: 2.24.0
           
       - name: Copy build to storage account
-        env:
-          ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         uses: azure/cli@v2
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --acount-name  staticwebsitepggeqa --account-key ${{env.ARM_ACCESS_KEY}}  --destination $web  --source build      
+          az storage blob upload-batch --acount-name  staticwebsitepggeqa --account-key ${{ secrets.ACCESS_KEY }}  --destination $web  --source build      
   
   
   deploy:
