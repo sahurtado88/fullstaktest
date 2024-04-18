@@ -45,7 +45,7 @@ jobs:
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --acount-name  staticwebsitepggeqa --account-key ${{ secrets.ACCESS_KEY }}  --destination '$web'  --source build      
+          az storage blob upload-batch --acount-name  staticwebsitepggeqa --destination \$web  --source build      
   
   
   deploy:
