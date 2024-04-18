@@ -46,24 +46,11 @@ jobs:
           path: build
 
          
-      - name: Copy build to storage account
+      - name: Copy build to dev storage account
         uses: azure/cli@v2
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --account-name  staticwebsitedevel  --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
+          az storage blob upload-batch --account-name  staticwebsitedevel  --account-key ${{ secrets.AZURE_STORAGE_KEY_DEV }} --auth-mode key  -d '$web' -s ./build    
   
-  
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-files
   

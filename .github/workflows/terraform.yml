@@ -15,6 +15,7 @@ jobs:
             ROOTH_PATH: '${{ github.workspace }}/Infra'
             TF_LOG: INFO
             TF_INPUT: false
+            environment: dev
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -35,6 +36,12 @@ jobs:
               working-directory: ${{env.ROOTH_PATH}}
               run: terraform init  
 
+            - name: 'Set Eworkspace'
+              working-directory: ${{env.ROOTH_PATH}}
+              run: |
+                terraform workspace new  ${{ env.environment}} 
+                terraform workspace select ${{ env.environment}}          
+
             - name: 'Terraform plan'
               id: plan
               env:
@@ -46,7 +53,7 @@ jobs:
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
                 working-directory: ${{env.ROOTH_PATH}}
                 
-              run: terraform plan --var-file terraform.tfvars
+              run: terraform plan --var-file prod.tfvars
 
             - name: 'Terraform Apply'
               env:

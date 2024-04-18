@@ -31,3 +31,7 @@ variable "static_website_error_404_document" {
   description = "static website error 404 document"
   type        = string
 }
+variable "environment" {
+  description = "environment"
+  type = string  
+}
