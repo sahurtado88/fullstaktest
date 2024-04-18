@@ -39,17 +39,7 @@ jobs:
           name: build-files
           path: build
 
-      - name: Install Azure CLI
-        uses: azure/setup-azure-cli@v1
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-          ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}  
-        with:
-          azcliversion: 2.24.0
-          
+         
       - name: Copy build to storage account
         uses: azure/cli@v2
         with:
