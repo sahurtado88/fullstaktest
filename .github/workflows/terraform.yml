@@ -44,8 +44,9 @@ jobs:
                 ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
                 ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}   
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
-              working-directory: ${{env.ROOTH_PATH}}
-              run: terraform plan
+                working-directory: ${{env.ROOTH_PATH}}
+                
+              run: terraform plan --var-file = terraform.tfvars
 
             - name: 'Terraform Apply'
               env:
