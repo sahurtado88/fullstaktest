@@ -29,14 +29,17 @@ jobs:
 
 
             - name: 'Terraform Init'
+              id: init
               working-directory: ${{env.ROOTH_PATH}}
               run: terraform init  
 
             - name: 'Terraform plan'
+              id: plan
               working-directory: ${{env.ROOTH_PATH}}
-              run: terraform plan  
+              run: terraform plan -no-color
 
             - name: 'Terraform Apply'
               working-directory: ${{env.ROOTH_PATH}}
               run: terraform apply -auto-approve 
                          
+
