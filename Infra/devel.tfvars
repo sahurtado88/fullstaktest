@@ -1,5 +1,5 @@
 location                          = "eastus"
-resource_group_name               = "myrg1"
+resource_group_name               = "myrg-devel"
 storage_account_name              = "staticwebsitedevel"
 storage_account_tier              = "Standard"
 storage_account_replication_type  = "LRS"
