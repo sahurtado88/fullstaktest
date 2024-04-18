@@ -12,6 +12,7 @@ jobs:
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION }}
             ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
             ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}   
+            ROOTH_PATH: '${{ github.workspace }}/infra'
         runs-on: ubuntu-latest
         environment: dev
         defaults:
@@ -28,12 +29,12 @@ jobs:
 
 
             - name: 'Terraform Init'
-              working-directory: ./Infra
+              working-directory: ${{env.ROOTH_PATH}}
               run: terraform init  
 
 
 
             - name: 'Terraform Apply'
-              working-directory: ./Infra
+              working-directory: ${{env.ROOTH_PATH}}
               run: terraform apply -auto-approve 
                          
