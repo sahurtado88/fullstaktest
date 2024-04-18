@@ -2,6 +2,11 @@ name: 'Terraform'
 
 on:
     workflow_dispatch:
+     inputs:
+        environment:
+            description: 'Environment to deploy (devl,stage,prod)'
+            required: true
+            default: 'dev'
 
 jobs:
     terraform:
@@ -40,7 +45,7 @@ jobs:
               working-directory: ${{env.ROOTH_PATH}}
               run: |
                 
-                terraform workspace select ${{ env.environment}} || terraform workspace new  ${{ env.environment}}       
+                terraform workspace select ${{ github.event.inputs.environment }} || terraform workspace new  ${{ github.event.inputs.environment }}        
 
             - name: 'Terraform plan'
               id: plan
@@ -53,7 +58,7 @@ jobs:
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
                 working-directory: ${{env.ROOTH_PATH}}
                 
-              run: terraform plan --var-file prod.tfvars
+              run: terraform plan --var-file ${github.event.inputs.environment}.tfvars
 
             - name: 'Terraform Apply'
               env:
@@ -64,6 +69,6 @@ jobs:
                 ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}   
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
                 working-directory: ${{env.ROOTH_PATH}}
-              run: terraform apply --var-file prod.tfvars -auto-approve 
+              run: terraform apply --var-file ${github.event.inputs.environment}.tfvars -auto-approve 
                          
 
