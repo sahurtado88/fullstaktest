@@ -12,7 +12,7 @@ jobs:
             ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION }}
             ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
             ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}   
-            ROOTH_PATH: '${{ github.workspace }}/infra'
+            ROOTH_PATH: '${{ github.workspace }}/Infra'
         runs-on: ubuntu-latest
         environment: dev
         defaults:
