@@ -4,6 +4,7 @@ terraform {
     resource_group_name = "Terraform"
     storage_account_name = "terraformsahr"
     container_name = "tfstatefile"
+    key = "terraform.tfstate"
 
     
   }
