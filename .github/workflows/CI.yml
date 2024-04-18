@@ -9,6 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+      ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}  
 
     steps:
       - name: Checkout Repository
@@ -45,7 +51,7 @@ jobs:
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --acount-name  staticwebsitepggeqa --destination \$web  --source build      
+          az storage blob upload-batch --acount-name  staticwebsitepggeqa --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key --overwrite -d '$web' -s .    
   
   
   deploy:
