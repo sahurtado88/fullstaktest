@@ -12,7 +12,7 @@ resource "azurerm_resource_group" "resource_group" {
 
 # Create Azure Storage account
 resource "azurerm_storage_account" "storage_account" {
-  name                = var.storage_account_name
+  name                = "${var.storage_account_name}sahr"
   resource_group_name = azurerm_resource_group.resource_group.name
   location                 = var.location
   account_tier             = var.storage_account_tier
