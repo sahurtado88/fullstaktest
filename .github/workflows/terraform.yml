@@ -32,9 +32,11 @@ jobs:
               working-directory: ${{env.ROOTH_PATH}}
               run: terraform init  
 
-
+            - name: 'Terraform plan'
+              working-directory: ${{env.ROOTH_PATH}}
+              run: terraform plan  
 
             - name: 'Terraform Apply'
               working-directory: ${{env.ROOTH_PATH}}
-              run: terraform apply --auto-approve 
+              run: terraform apply -auto-approve 
                          
