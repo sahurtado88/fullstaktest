@@ -69,6 +69,6 @@ jobs:
                 ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}   
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
                 working-directory: ${{env.ROOTH_PATH}}
-              run: terraform apply --var-file ${github.event.inputs.environment}.tfvars -auto-approve 
+              run: terraform apply --var-file ${{ github.event.inputs.environment }}.tfvars -auto-approve 
                          
 
