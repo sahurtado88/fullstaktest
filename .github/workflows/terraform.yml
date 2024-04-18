@@ -46,7 +46,7 @@ jobs:
                 ROOTH_PATH: '${{ github.workspace }}/Infra'
                 working-directory: ${{env.ROOTH_PATH}}
                 
-              run: terraform plan --var-file = terraform.tfvars
+              run: terraform plan --var-file terraform.tfvars
 
             - name: 'Terraform Apply'
               env:
