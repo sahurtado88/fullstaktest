@@ -69,7 +69,7 @@ jobs:
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch -d '$web' -s ./build --account-name staticwebsitedevelsahr --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
+          az storage blob upload-batch -d '$web' -s ./build --account-name s${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
            
       
   Deploy_Stage:
