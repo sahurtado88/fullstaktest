@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: devel
     needs: build
-
+    if: ${{ github.ref == 'ref/heads/main' }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
