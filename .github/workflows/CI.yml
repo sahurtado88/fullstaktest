@@ -62,10 +62,7 @@ jobs:
         with:
           name: build-files
           path: build
-      - name: test artifact dowload
-        run: pwd
         
-
       - name: Copy build to dev storage account
         uses: azure/cli@v2
         with:
