@@ -10,6 +10,7 @@ on:
       - feature*
       
 jobs:
+
   build:
     runs-on: ubuntu-latest
     env:
@@ -44,6 +45,10 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: build
+
       
 
   Deploy_Dev:
