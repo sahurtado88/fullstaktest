@@ -55,7 +55,7 @@ jobs:
     name: Deploy Development environment
     runs-on: ubuntu-latest
     environment: devel
-    needs: build
+    needs: [build]
     if: ${{ github.ref == 'refs/heads/main' ||  github.ref == 'refs/heads/devel' }}
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
@@ -77,11 +77,12 @@ jobs:
          inlineScript: |
           az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
       
-      - name: Copy build to dev storage account
+      - name: Endpoint
         uses: azure/cli@v2
         with:
           azcliversion: 2.30.0
           inlineScript: |
+           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_ID }} -p ${{ secrets.ACCESS_KEY }} --tenant ${{ secrets.AZURE_AD_TENANT_ID }}
            endpoint=$(az storage account show -g myrg-devel --name  ${{ vars.STORAGEACCOUNT }} --query "primaryEndpoints.web")
            echo "$endpoint"    
        
@@ -90,7 +91,7 @@ jobs:
     name: Deploy stage environment
     runs-on: ubuntu-latest
     environment: stage
-    needs: build
+    needs: [build,Deploy_Dev]
     if: ${{ github.ref == 'refs/heads/stage'}}
     steps:
       - name: Download artifact
