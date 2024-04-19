@@ -68,7 +68,7 @@ jobs:
   Deploy_Stage:
     name: Deploy stage environment
     runs-on: ubuntu-latest
-    environment: devel
+    environment: stage
     needs: Deploy_Dev
     steps:
       - name: Download artifact
@@ -83,4 +83,24 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
-            
+   
+   
+  Deploy_Prod:
+    name: Deploy prod environment
+    runs-on: ubuntu-latest
+    environment: prod
+    needs: Deploy_Dev
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: build
+        
+      - name: Copy build to dev storage account
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
+           
