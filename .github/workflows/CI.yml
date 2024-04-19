@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: devel
     needs: build
-    if: ${{ github.ref == 'ref/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -86,8 +86,8 @@ jobs:
     name: Deploy stage environment
     runs-on: ubuntu-latest
     environment: stage
-    needs: Deploy_Dev
-    if: ${{ github.ref == 'ref/heads/stage'}}
+    needs: build
+    if: ${{ github.ref == 'refs/heads/stage'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -107,7 +107,8 @@ jobs:
     name: Deploy prod environment
     runs-on: ubuntu-latest
     environment: prod
-    if: ${{ github.ref == 'ref/heads/prod'}}
+    needs: build
+    if: ${{ github.ref == 'refs/heads/prod'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
