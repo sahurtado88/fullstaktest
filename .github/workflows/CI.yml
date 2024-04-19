@@ -76,7 +76,7 @@ jobs:
     name: Deploy stage environment
     runs-on: ubuntu-latest
     environment: stage
-    if: ${{ github.ref == 'ref/heads/stage'}}
+    if: ${{ github.ref == 'refs/heads/stage'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -96,7 +96,7 @@ jobs:
     name: Deploy prod environment
     runs-on: ubuntu-latest
     environment: prod
-    if: ${{ github.ref == 'ref/heads/prod'}}
+    if: ${{ github.ref == 'refs/heads/prod'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
