@@ -69,17 +69,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-files
-          path: build
-      - name: test artifact dowload
-        run: pwd
-        
+          path: build   
 
       - name: Copy build to dev storage account
         uses: azure/cli@v2
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --account-name  staticwebsitedevelsahr  --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
+          az storage blob upload-batch -d '$web' -s ./build --account-name staticwebsitedevelsahr --overwrite    
            
       
   Deploy_Stage:
