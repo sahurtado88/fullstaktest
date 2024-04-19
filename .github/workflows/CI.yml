@@ -91,7 +91,7 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
-   
+      
    
   Deploy_Prod:
     name: Deploy prod environment
