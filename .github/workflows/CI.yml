@@ -54,7 +54,8 @@ jobs:
         with:
           name: build-files
       - name: test artifact dowload
-        run: ls -R
+        run: pwd
+        
 
       - name: Copy build to dev storage account
         uses: azure/cli@v2
