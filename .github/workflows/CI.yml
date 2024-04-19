@@ -71,7 +71,7 @@ jobs:
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --account-name  staticwebsitedevelsahr  --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
+          az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
       - name: Entrypoint
         uses: azure/cli@v2
         with:
