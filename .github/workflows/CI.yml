@@ -57,6 +57,12 @@ jobs:
     environment: devel
     needs: build
     if: ${{ github.ref == 'refs/heads/main' ||  github.ref == 'refs/heads/devel' }}
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+      ARM_ACCESS_KEY: ${{ secrets.ACCESS_KEY }}  
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -70,7 +76,15 @@ jobs:
          azcliversion: 2.30.0
          inlineScript: |
           az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
-           
+      
+      - name: Copy build to dev storage account
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+           endpoint=$(az storage account show -g myrg-devel --name  ${{ vars.STORAGEACCOUNT }} --query "primaryEndpoints.web")
+           echo "$endpoint"    
+       
       
   Deploy_Stage:
     name: Deploy stage environment
