@@ -82,7 +82,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_ID }} -p ${{ secrets.ACCESS_KEY }} --tenant ${{ secrets.AZURE_AD_TENANT_ID }}
+           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_ID }} -p ${{ secrets.AZURE_AD_CLIENT_SECRET }}--tenant ${{ secrets.AZURE_AD_TENANT_ID }}
            endpoint=$(az storage account show -g myrg-devel --name  ${{ vars.STORAGEACCOUNT }} --query "primaryEndpoints.web")
            echo "$endpoint"    
        
