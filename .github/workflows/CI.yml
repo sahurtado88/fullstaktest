@@ -1,8 +1,13 @@
 name: CI
 
 on:
-  workflow_dispatch:
-  workflow_call: 
+  push:
+    branches:
+      - main
+      - devel
+      - stage
+      - prod
+      - feature*
       
 jobs:
   build:
