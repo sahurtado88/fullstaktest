@@ -52,7 +52,6 @@ jobs:
     name: Deploy Development environment
     runs-on: ubuntu-latest
     environment: devel
-    if: ${{ github.ref == 'ref/heads/main' || github.ref == 'ref/heads/devel'}}
 
     steps:
       - name: Download artifact
