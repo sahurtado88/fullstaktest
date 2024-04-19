@@ -52,6 +52,7 @@ jobs:
     name: Deploy Development environment
     runs-on: ubuntu-latest
     environment: devel
+    needs: build
 
     steps:
       - name: Download artifact
@@ -75,6 +76,7 @@ jobs:
     name: Deploy stage environment
     runs-on: ubuntu-latest
     environment: stage
+    needs: Deploy_Dev
     if: ${{ github.ref == 'ref/heads/stage'}}
     steps:
       - name: Download artifact
