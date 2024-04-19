@@ -10,6 +10,14 @@ on:
       - feature*
       
 jobs:
+  print_ref:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print github ref
+        run: echo "github ${{ github.ref }}"
+
+
+
   build:
     runs-on: ubuntu-latest
     env:
@@ -47,6 +55,8 @@ jobs:
         with:
           name: build-files
           path: build
+
+      
 
   Deploy_Dev:
     name: Deploy Development environment
