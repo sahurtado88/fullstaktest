@@ -47,7 +47,8 @@ jobs:
     name: Deploy Development environment
     runs-on: ubuntu-latest
     environment: devel
-    needs: build
+    if: ${{ github.ref == 'ref/heads/main' || github.ref == 'ref/heads/devel'}}
+
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -65,21 +66,12 @@ jobs:
          inlineScript: |
           az storage blob upload-batch --account-name  staticwebsitedevelsahr  --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
            
-      - name: Endpoint 
-        uses: azure/cli@v2
-        with:
-         azcliversion: 2.30.0
-         inlineScript: |
-          endpoint=$(az storage account show --resource-group myrg-devel --name staticwebsitedevelsahr --query "primaryEndpoints.web")
-          echo "$endpoint"
-
-
       
   Deploy_Stage:
     name: Deploy stage environment
     runs-on: ubuntu-latest
     environment: stage
-    needs: Deploy_Dev
+    if: ${{ github.ref == 'ref/heads/stage'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -99,7 +91,7 @@ jobs:
     name: Deploy prod environment
     runs-on: ubuntu-latest
     environment: prod
-    needs: Deploy_Stage
+    if: ${{ github.ref == 'ref/heads/prod'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
