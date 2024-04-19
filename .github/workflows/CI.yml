@@ -8,6 +8,7 @@ on:
       - stage
       - prod
       - 'feature*'
+      - 'hotfix*'
       
 jobs:
   build:
@@ -71,7 +72,14 @@ jobs:
          azcliversion: 2.30.0
          inlineScript: |
           az storage blob upload-batch --account-name  staticwebsitedevelsahr  --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
-           
+      - name: Entrypoint
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.3
+          inlineScript: |
+           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_SECRET }} -p ${{ secrets.ACCESS_KEY }}  --tenant ${{ secrets.AZURE_AD_TENANT_ID }}
+           az storage account show -g myrg-devel --name staticwebsitedevelsahr --query "primaryEndpoints.web")
+          
       
   Deploy_Stage:
     name: Deploy stage environment
