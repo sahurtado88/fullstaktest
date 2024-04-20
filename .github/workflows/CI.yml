@@ -6,16 +6,14 @@ on:
       - devel
       - stage
       - prod
-      - feature*
-      - bugfix*
+
   pull_request:
     branches:
 
       - devel
       - stage
       - prod
-      - feature*
-      - bugfix*
+
       
 jobs:
 
