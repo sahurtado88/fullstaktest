@@ -3,7 +3,8 @@ name: CI
 on:
   push:
     branches:
-      - main
+
+  
       - devel
       - stage
       - prod
@@ -11,7 +12,7 @@ on:
       - bugfix*
   pull_request:
     branches:
-      - main
+
       - devel
       - stage
       - prod
