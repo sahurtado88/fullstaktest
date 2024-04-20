@@ -65,7 +65,7 @@ jobs:
     environment: devel
     needs: build
 
-    if: ${{ github.ref == 'refs/heads/devel' ||  startsWith(github.ref, 'refs/head/feature') || startsWith(github.ref, 'refs/head/bugfix') }}
+    if: ${{ github.ref == 'refs/heads/devel' }}
 
     steps:
       - name: Download artifact
