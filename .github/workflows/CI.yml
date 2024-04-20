@@ -3,13 +3,20 @@ name: CI
 on:
   push:
     branches:
-      - main
       - devel
       - stage
       - prod
-      - feature*
+
+  pull_request:
+    branches:
+
+      - devel
+      - stage
+      - prod
+
       
 jobs:
+
   build:
     runs-on: ubuntu-latest
     env:
@@ -48,35 +55,46 @@ jobs:
           name: build-files
           path: build
 
+      
+
   Deploy_Dev:
     name: Deploy Development environment
     runs-on: ubuntu-latest
     environment: devel
-    if: ${{ github.ref == 'ref/heads/main' || github.ref == 'ref/heads/devel'}}
+    needs: build
+
+    if: ${{ github.ref == 'refs/heads/devel' }}
 
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: build-files
-          path: build
-      - name: test artifact dowload
-        run: pwd
-        
+          path: build   
 
       - name: Copy build to dev storage account
         uses: azure/cli@v2
         with:
          azcliversion: 2.30.0
          inlineScript: |
-          az storage blob upload-batch --account-name  staticwebsitedevelsahr  --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
-           
+          az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
+      
+      - name: Endpoint
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_ID }} -p ${{ secrets.AZURE_AD_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_AD_TENANT_ID }}
+           endpoint=$(az storage account show -g myrg-devel --name  ${{ vars.STORAGEACCOUNT }} --query "primaryEndpoints.web")
+           echo "$endpoint"    
+       
       
   Deploy_Stage:
     name: Deploy stage environment
     runs-on: ubuntu-latest
     environment: stage
-    if: ${{ github.ref == 'ref/heads/stage'}}
+    needs: build
+    if: ${{ github.ref == 'refs/heads/stage'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -89,14 +107,23 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
-   
+           az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
+      
+      - name: Endpoint
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_ID }} -p ${{ secrets.AZURE_AD_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_AD_TENANT_ID }}
+           endpoint=$(az storage account show -g myrg-stage --name  ${{ vars.STORAGEACCOUNT }} --query "primaryEndpoints.web")
+           echo "$endpoint"    
    
   Deploy_Prod:
     name: Deploy prod environment
     runs-on: ubuntu-latest
     environment: prod
-    if: ${{ github.ref == 'ref/heads/prod'}}
+    needs: build
+    if: ${{ github.ref == 'refs/heads/prod'}}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -109,5 +136,13 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
-           
+           az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
+            
+      - name: Endpoint
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+           az login --service-principal -u ${{ secrets.AZURE_AD_CLIENT_ID }} -p ${{ secrets.AZURE_AD_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_AD_TENANT_ID }}
+           endpoint=$(az storage account show -g myrg-prod --name  ${{ vars.STORAGEACCOUNT }} --query "primaryEndpoints.web")
+           echo "$endpoint"         
