@@ -3,21 +3,17 @@ name: CI
 on:
   push:
     branches:
-
-  
       - devel
       - stage
       - prod
-      - feature*
-      - bugfix*
+
   pull_request:
     branches:
 
       - devel
       - stage
       - prod
-      - feature*
-      - bugfix*
+
       
 jobs:
 
@@ -67,7 +63,7 @@ jobs:
     environment: devel
     needs: build
 
-    if: ${{ github.ref == 'refs/heads/devel' ||  startsWith(github.ref, 'refs/head/feature') || startsWith(github.ref, 'refs/head/bugfix') }}
+    if: ${{ github.ref == 'refs/heads/devel' }}
 
     steps:
       - name: Download artifact
@@ -111,7 +107,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
+           az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
       
       - name: Endpoint
         uses: azure/cli@v2
@@ -140,7 +136,7 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az storage blob upload-batch --account-name  ${{ vars.STORAGEACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --auth-mode key  -d '$web' -s ./build    
+           az storage blob upload-batch -d '$web' -s ./build --account-name ${{ vars.STORAGEACCOUNT }}  --account-key ${{ secrets.AZURE_STORAGE_KEY }} 
             
       - name: Endpoint
         uses: azure/cli@v2
