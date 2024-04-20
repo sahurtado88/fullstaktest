@@ -66,7 +66,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: devel
     needs: build
+
     if: ${{ github.ref == 'refs/heads/devel' ||  startsWith(github.ref, 'refs/head/feature') || startsWith(github.ref, 'refs/head/bugfix') }}
+
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
